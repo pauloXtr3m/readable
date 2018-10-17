@@ -8,18 +8,24 @@
  * reloading is not a necessity for you then you can refactor it and remove
  * the linting exception.
  */
-
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import { Container, Menu } from 'semantic-ui-react';
+import PostFeed from '../../components/PostFeed';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div>
+        <Menu secondary color="brown">
+          <Menu.Item position="left">
+            <h3>Readable</h3>
+          </Menu.Item>
+        </Menu>
+        <Container>
+          <PostFeed />
+        </Container>
+      </div>
     );
   }
 }
