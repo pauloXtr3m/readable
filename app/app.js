@@ -35,6 +35,7 @@ import { translationMessages } from './i18n';
 
 // Import CSS reset and Global Styles
 import './global-styles';
+import '../node_modules/semantic-ui-css/semantic.min.css';
 
 // Create redux store with history
 const initialState = {};
