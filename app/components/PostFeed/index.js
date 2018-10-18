@@ -5,12 +5,19 @@
  */
 
 import { Feed, Icon } from 'semantic-ui-react';
+import connect from 'react-redux/es/connect/connect';
 import React from 'react';
+import * as PropTypes from 'redux-saga';
+
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 /* eslint-disable react/prefer-stateless-function */
 class PostFeed extends React.Component {
+  componentDidMount() {
+    this.props.getAllPostsAPI();
+  }
+
   render() {
     const events = [
       {
@@ -57,6 +64,23 @@ class PostFeed extends React.Component {
   }
 }
 
-PostFeed.propTypes = {};
+PostFeed.propTypes = {
+  getAllPostsAPI: PropTypes.func,
+};
 
-export default PostFeed;
+function mapStateToProps({ posts }) {
+  return {
+    posts,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getAllPostsAPI: () => dispatch({ type: 'GET_ALL_POSTS_REQUEST' }),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PostFeed);

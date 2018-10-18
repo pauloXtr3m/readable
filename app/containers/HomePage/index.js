@@ -9,11 +9,26 @@
  * the linting exception.
  */
 import React from 'react';
+import { compose } from 'redux';
 import { Container, Menu } from 'semantic-ui-react';
 import PostFeed from '../../components/PostFeed';
+import mainPostsSaga from './saga';
+import injectSaga from '../../utils/injectSaga';
+import { RESTART_ON_REMOUNT } from '../../utils/constants';
 
+const withSaga = injectSaga({
+  key: 'mainpostssaga',
+  mainPostsSaga,
+  mode: RESTART_ON_REMOUNT,
+});
 /* eslint-disable react/prefer-stateless-function */
-export default class HomePage extends React.PureComponent {
+export class HomePage extends React.PureComponent {
+  // componentDidMount() {
+  //   if(!this.props.posts){
+  //     this.props.getAllPosts();
+  //   }
+  // }
+
   render() {
     return (
       <div>
@@ -29,3 +44,5 @@ export default class HomePage extends React.PureComponent {
     );
   }
 }
+
+export default compose(withSaga)(HomePage);

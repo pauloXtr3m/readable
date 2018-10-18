@@ -20,9 +20,8 @@ export const get = postId =>
     .then(data => data.post);
 
 export const getAll = () =>
-  fetch(`${API}/posts`, { headers })
-    .then(res => res.json())
-    .then(data => data.posts);
+  fetch(`${API}/posts`, { headers }).then(res => res.json());
+// .then(posts => data.posts);
 
 export const update = post =>
   fetch(`${API}/posts/${post.id}`, {
