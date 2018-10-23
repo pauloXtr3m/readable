@@ -1,4 +1,4 @@
-import { call, put, takeEvery, all } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import * as PostsApi from '../../utils/postsAPI';
 
 export const GET_ALL_POSTS_REQUEST = 'GET_ALL_POSTS_REQUEST';
@@ -15,10 +15,6 @@ function* fetchPosts(action) {
   }
 }
 
-function* postsSaga() {
+export default function* postsSaga() {
   yield takeEvery('GET_ALL_POSTS_REQUEST', fetchPosts);
-}
-
-export default function* mainPostsSaga() {
-  yield all(postsSaga());
 }

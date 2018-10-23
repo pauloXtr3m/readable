@@ -10,17 +10,14 @@
  */
 import React from 'react';
 import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import { Container, Menu } from 'semantic-ui-react';
 import PostFeed from '../../components/PostFeed';
-import mainPostsSaga from './saga';
+import postsSaga from './saga';
 import injectSaga from '../../utils/injectSaga';
-import { RESTART_ON_REMOUNT } from '../../utils/constants';
+import makeSelectPosts from './selectors';
 
-const withSaga = injectSaga({
-  key: 'mainpostssaga',
-  mainPostsSaga,
-  mode: RESTART_ON_REMOUNT,
-});
 /* eslint-disable react/prefer-stateless-function */
 export class HomePage extends React.PureComponent {
   // componentDidMount() {
@@ -28,7 +25,6 @@ export class HomePage extends React.PureComponent {
   //     this.props.getAllPosts();
   //   }
   // }
-
   render() {
     return (
       <div>
@@ -45,4 +41,26 @@ export class HomePage extends React.PureComponent {
   }
 }
 
-export default compose(withSaga)(HomePage);
+export function mapDispatchToProps() {
+  return {
+    onChangePost: () => {},
+  };
+}
+
+const mapStateToProps = createStructuredSelector({
+  posts: makeSelectPosts(),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+// const withReducer = injectReducer({ key: 'home', reducer });
+const withSaga = injectSaga({ key: 'home', saga: postsSaga });
+
+export default compose(
+  // withReducer,
+  withSaga,
+  withConnect,
+)(HomePage);

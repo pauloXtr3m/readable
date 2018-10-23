@@ -44,7 +44,7 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
     language: languageProviderReducer,
-    posts: postsReducer,
+    global: postsReducer,
     ...injectedReducers,
   });
 }
