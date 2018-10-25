@@ -1,31 +1,28 @@
-/*
- * HomePage
- *
- * This is the first thing users see of our App, at the '/' route
- *
- * NOTE: while this component should technically be a stateless functional
- * component (SFC), hot reloading does not currently support SFCs. If hot
- * reloading is not a necessity for you then you can refactor it and remove
- * the linting exception.
- */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { Container, Menu } from 'semantic-ui-react';
-import PostFeed from '../../components/PostFeed';
+import PostFeed from 'components/PostFeed/Loadable';
 import postsSaga from './saga';
 import injectSaga from '../../utils/injectSaga';
 import makeSelectPosts from './selectors';
+import { loadApplication } from '../App/actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class HomePage extends React.PureComponent {
-  // componentDidMount() {
-  //   if(!this.props.posts){
-  //     this.props.getAllPosts();
-  //   }
-  // }
+  componentDidMount() {
+    this.props.getAllPosts();
+  }
   render() {
+    const { posts, loading } = this.props;
+
+    const postFeedProps = {
+      posts,
+      loading,
+    };
+
     return (
       <div>
         <Menu secondary color="brown">
@@ -34,16 +31,27 @@ export class HomePage extends React.PureComponent {
           </Menu.Item>
         </Menu>
         <Container>
-          <PostFeed />
+          <PostFeed {...postFeedProps} />
         </Container>
       </div>
     );
   }
 }
 
-export function mapDispatchToProps() {
+HomePage.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  posts: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  getAllPosts: PropTypes.func,
+};
+
+export function mapDispatchToProps(dispatch) {
   return {
-    onChangePost: () => {},
+    getAllPosts: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loadApplication());
+    },
+    // onChangePost: () => {},
   };
 }
 

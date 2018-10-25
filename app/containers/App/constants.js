@@ -8,3 +8,8 @@
  * Follow this format:
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
+export const LOAD_APPLICATION = 'LOAD_APPLICATION';
+
+export const LOAD_APPLICATION_SUCCESS = 'LOAD_APPLICATION_SUCCESS';
+
+export const LOAD_APPLICATION_ERROR = 'LOAD_APPLICATION_ERROR';

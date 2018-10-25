@@ -6,7 +6,7 @@ export const getAllPosts = filter => ({
   filter,
 });
 
-export const getAllPostsSucceded = filter => ({
+export const getAllPostsSucceded = posts => ({
   type: GET_ALL_POSTS_SUCCEEDED,
-  filter,
+  posts,
 });

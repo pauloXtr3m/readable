@@ -1,4 +1,4 @@
 export const RESTART_ON_REMOUNT = '@@saga-injector/restart-on-remount';
 export const DAEMON = '@@saga-injector/daemon';
 export const ONCE_TILL_UNMOUNT = '@@saga-injector/once-till-unmount';
-export const API = 'https://localhost:3001';
+export const API = 'http://localhost:3001';

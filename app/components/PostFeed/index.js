@@ -3,46 +3,51 @@
  * PostFeed
  *
  */
-
+import PropTypes from 'prop-types';
 import { Feed, Icon } from 'semantic-ui-react';
-import connect from 'react-redux/es/connect/connect';
 import React from 'react';
-import * as PropTypes from 'redux-saga';
 
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 /* eslint-disable react/prefer-stateless-function */
-class PostFeed extends React.Component {
-  componentDidMount() {
-    this.props.getAllPostsAPI();
-  }
+function PostFeed({ loading, error, posts }) {
+  const formatedPosts = Array.of(posts).map(post => ({
+    id: post.id,
+    meta: `${post.voteScore} likes`,
+    summary: post.body,
+    date: '',
+    image: 'https://react.semantic-ui.com/images/avatar/small/justen.jpg',
+  }));
 
-  render() {
-    const events = [
-      {
-        date: '1 Hour Ago',
-        image: 'https://react.semantic-ui.com/images/avatar/small/justen.jpg',
-        meta: '4 Likes',
-        summary: 'Elliot Fu added you as a friend',
-      },
-      {
-        date: '2 Hour Ago',
-        image: 'https://react.semantic-ui.com/images/avatar/small/justen.jpg',
-        meta: '8 Likes',
-        summary: 'Elliot Fu added you as a enemy',
-      },
-    ];
+  // const events = [
+  //   {
+  //     date: '1 Hour Ago',
+  //     image: 'https://react.semantic-ui.com/images/avatar/small/justen.jpg',
+  //     meta: '4 Likes',
+  //     summary: 'Elliot Fu added you as a friend',
+  //   },
+  //   {
+  //     date: '2 Hour Ago',
+  //     image: 'https://react.semantic-ui.com/images/avatar/small/justen.jpg',
+  //     meta: '8 Likes',
+  //     summary: 'Elliot Fu added you as a enemy',
+  //   },
+  // ];
+
+  if (loading) {
+    return <div>Loading</div>;
+  } else if (!error) {
     return (
       <div>
         <Feed>
-          {events.map(event => (
+          {formatedPosts.map(post => (
             <Feed.Event>
-              <Feed.Label image={event.image} />
-              <Feed.Content>
+              <Feed.Label key={post.id} image={post.image} />
+              <Feed.Content key={post.id}>
                 <Feed.Summary>
-                  {event.summary}
-                  <Feed.Date>{event.date}</Feed.Date>
+                  {post.summary}
+                  <Feed.Date>{post.date}</Feed.Date>
                 </Feed.Summary>
                 {/* <Feed.Extra text> */}
                 {/* Ours is a life of constant reruns. We're always circling back to where we'd we started, */}
@@ -52,7 +57,7 @@ class PostFeed extends React.Component {
                 <Feed.Meta>
                   <Feed.Like>
                     <Icon name="like" />
-                    {event.meta}
+                    {post.meta}
                   </Feed.Like>
                 </Feed.Meta>
               </Feed.Content>
@@ -62,25 +67,13 @@ class PostFeed extends React.Component {
       </div>
     );
   }
+  return <div>Error, refresh the page</div>;
 }
 
 PostFeed.propTypes = {
-  getAllPostsAPI: PropTypes.func,
+  loading: PropTypes.bool,
+  error: PropTypes.any,
+  posts: PropTypes.any,
 };
 
-function mapStateToProps({ posts }) {
-  return {
-    posts,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getAllPostsAPI: () => dispatch({ type: 'GET_ALL_POSTS_REQUEST' }),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PostFeed);
+export default PostFeed;
