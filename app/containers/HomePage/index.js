@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Container, Menu } from 'semantic-ui-react';
+import { Container, Menu, Segment } from 'semantic-ui-react';
 import PostFeed from 'components/PostFeed/Loadable';
 import postsSaga from './saga';
 import injectSaga from '../../utils/injectSaga';
@@ -31,7 +31,14 @@ export class HomePage extends React.PureComponent {
           </Menu.Item>
         </Menu>
         <Container>
-          <PostFeed {...postFeedProps} />
+          <Menu pointing>
+            <Menu.Item name="Home" />
+            <Menu.Item name="Sort by date" />
+            <Menu.Item name="Sort by score" />
+          </Menu>
+          <Segment>
+            <PostFeed {...postFeedProps} />
+          </Segment>
         </Container>
       </div>
     );
