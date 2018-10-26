@@ -12,14 +12,6 @@ import React from 'react';
 
 /* eslint-disable react/prefer-stateless-function */
 function PostFeed({ loading, error, posts }) {
-  const formatedPosts = Array.of(posts).map(post => ({
-    id: post.id,
-    meta: `${post.voteScore} likes`,
-    summary: post.body,
-    date: '',
-    image: 'https://react.semantic-ui.com/images/avatar/small/justen.jpg',
-  }));
-
   // const events = [
   //   {
   //     date: '1 Hour Ago',
@@ -41,24 +33,25 @@ function PostFeed({ loading, error, posts }) {
     return (
       <div>
         <Feed>
-          {formatedPosts.map(post => (
+          {posts.map(post => (
             <Feed.Event>
               <Feed.Label key={post.id} image={post.image} />
               <Feed.Content key={post.id}>
                 <Feed.Summary>
-                  {post.summary}
-                  <Feed.Date>{post.date}</Feed.Date>
+                  <Feed.User>{post.author}</Feed.User>
+                  {` posted ${post.title}`}
+                  {/* <Feed.Date>{post.date}</Feed.Date> */}
                 </Feed.Summary>
-                {/* <Feed.Extra text> */}
-                {/* Ours is a life of constant reruns. We're always circling back to where we'd we started, */}
-                {/* then starting all over again. Even if we don't run extra laps that day, we surely will */}
-                {/* come back for more of the same another day soon. */}
-                {/* </Feed.Extra> */}
+                <Feed.Extra text>{post.body}</Feed.Extra>
                 <Feed.Meta>
                   <Feed.Like>
-                    <Icon name="like" />
-                    {post.meta}
+                    <Icon name="thumbs up outline" />
                   </Feed.Like>
+                  <Feed.Like>
+                    <Icon name="thumbs down outline" />
+                  </Feed.Like>
+                  <Feed.Like>{`${post.voteScore} votes`}</Feed.Like>
+                  <Feed.Meta>{`${post.commentCount} comments`}</Feed.Meta>
                 </Feed.Meta>
               </Feed.Content>
             </Feed.Event>
