@@ -5,4 +5,7 @@ const selectGlobal = state => state.get('global');
 const makeSelectPosts = () =>
   createSelector(selectGlobal, globalState => globalState.get('posts'));
 
-export default makeSelectPosts;
+const makeSelectCategories = () =>
+  createSelector(selectGlobal, globalState => globalState.get('categories'));
+
+export { makeSelectPosts, makeSelectCategories };

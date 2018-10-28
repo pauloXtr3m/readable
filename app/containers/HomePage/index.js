@@ -3,20 +3,23 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Container, Menu, Segment } from 'semantic-ui-react';
-import PostFeed from 'components/PostFeed/Loadable';
+import { Grid, Segment } from 'semantic-ui-react';
+import PostFeed from 'components/PostFeed/index';
 import postsSaga from './saga';
 import injectSaga from '../../utils/injectSaga';
-import makeSelectPosts from './selectors';
+import { makeSelectPosts, makeSelectCategories } from './selectors';
 import { loadApplication } from '../App/actions';
+import CategoriesMenu from '../../components/CategoriesMenu';
+import reducer from '../App/reducer';
+import injectReducer from '../../utils/injectReducer';
+import { makeSelectLocation } from '../App/selectors';
 
-/* eslint-disable react/prefer-stateless-function */
-export class HomePage extends React.PureComponent {
+export class HomePage extends React.Component {
   componentDidMount() {
-    this.props.getAllPosts();
+    this.props.loadApplication();
   }
   render() {
-    const { posts, loading } = this.props;
+    const { posts, loading, categories } = this.props;
 
     const postFeedProps = {
       posts,
@@ -25,21 +28,17 @@ export class HomePage extends React.PureComponent {
 
     return (
       <div>
-        <Menu secondary color="brown">
-          <Menu.Item position="left">
-            <h3>Readable</h3>
-          </Menu.Item>
-        </Menu>
-        <Container>
-          <Menu pointing>
-            <Menu.Item name="Home" />
-            <Menu.Item name="Sort by date" />
-            <Menu.Item name="Sort by score" />
-          </Menu>
-          <Segment>
-            <PostFeed {...postFeedProps} />
-          </Segment>
-        </Container>
+        <Grid columns={2}>
+          <Grid.Column width={3}>
+            <CategoriesMenu categories={categories} />
+          </Grid.Column>
+          <Grid.Column width={13}>
+            <Segment>
+              <PostFeed {...postFeedProps} />
+            </Segment>
+            {!posts.length && <h4>There are no posts to show</h4>}
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }
@@ -48,22 +47,27 @@ export class HomePage extends React.PureComponent {
 HomePage.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  posts: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-  getAllPosts: PropTypes.func,
+  posts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  categories: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loadApplication: PropTypes.func,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    getAllPosts: evt => {
+    loadApplication: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadApplication());
     },
-    // onChangePost: () => {},
+    changeCategory: name => {
+      dispatch({ type: 'CHANGE_CATEGORY', name });
+    },
   };
 }
 
 const mapStateToProps = createStructuredSelector({
   posts: makeSelectPosts(),
+  categories: makeSelectCategories(),
+  location: makeSelectLocation(),
 });
 
 const withConnect = connect(
@@ -71,11 +75,11 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-// const withReducer = injectReducer({ key: 'home', reducer });
-const withSaga = injectSaga({ key: 'home', saga: postsSaga });
+const withReducer = injectReducer({ key: 'global', reducer });
+const withSaga = injectSaga({ key: 'global', saga: postsSaga });
 
 export default compose(
-  // withReducer,
+  withReducer,
   withSaga,
   withConnect,
 )(HomePage);
