@@ -6,43 +6,35 @@
 import PropTypes from 'prop-types';
 import { Feed, Icon } from 'semantic-ui-react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/prefer-stateless-function */
-function PostFeed({ loading, error, posts }) {
-  // const events = [
-  //   {
-  //     date: '1 Hour Ago',
-  //     image: 'https://react.semantic-ui.com/images/avatar/small/justen.jpg',
-  //     meta: '4 Likes',
-  //     summary: 'Elliot Fu added you as a friend',
-  //   },
-  //   {
-  //     date: '2 Hour Ago',
-  //     image: 'https://react.semantic-ui.com/images/avatar/small/justen.jpg',
-  //     meta: '8 Likes',
-  //     summary: 'Elliot Fu added you as a enemy',
-  //   },
-  // ];
-
+function PostFeed({ loading, error, posts, category }) {
   if (loading) {
     return <div>Loading</div>;
   } else if (!error) {
     return (
       <div>
+        {category && <h4>{category}</h4>}
         <Feed>
           {posts.map(post => (
-            <Feed.Event>
-              <Feed.Label key={post.id} image={post.image} />
-              <Feed.Content key={post.id}>
+            <Feed.Event key={post.id}>
+              <Feed.Label image={post.image} />
+              <Feed.Content>
                 <Feed.Summary>
                   <Feed.User>{post.author}</Feed.User>
                   {` posted ${post.title}`}
                   {/* <Feed.Date>{post.date}</Feed.Date> */}
                 </Feed.Summary>
-                <Feed.Extra text>{post.body}</Feed.Extra>
+
+                <Link to={`/${post.category}/${post.id}`}>
+                  <Feed.Extra text>{post.body}</Feed.Extra>
+                </Link>
+
                 <Feed.Meta>
                   <Feed.Like>
                     <Icon name="thumbs up outline" />
@@ -65,8 +57,9 @@ function PostFeed({ loading, error, posts }) {
 
 PostFeed.propTypes = {
   loading: PropTypes.bool,
-  error: PropTypes.any,
+  error: PropTypes.bool,
   posts: PropTypes.any,
+  category: PropTypes.string,
 };
 
 export default PostFeed;

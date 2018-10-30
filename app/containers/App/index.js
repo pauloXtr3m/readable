@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /**
  *
  * App.js
@@ -12,18 +13,32 @@
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import PostCategory from 'containers/PostCategory/Loadable';
+import { Container, Menu } from 'semantic-ui-react';
+import { PostDetail } from '../PostDetail';
 
 export default function App() {
   return (
     <div>
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <Menu pointing secondary color="brown">
+        <Link to="/">
+          <Menu.Item position="left">
+            <h3>Readable</h3>
+          </Menu.Item>
+        </Link>
+      </Menu>
+      <Container>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/:category_id" component={PostCategory} />
+          <Route exact path="/:category_id/:post_id" component={PostDetail} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+      </Container>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for PostFeed
+ * Asynchronously loads the component for PostDetail
  *
  */
 

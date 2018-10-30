@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import { Menu } from 'semantic-ui-react';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function CategoriesMenu({ categories }) {
   if (categories.length) {
@@ -11,14 +13,9 @@ function CategoriesMenu({ categories }) {
 
         {categories.map(category => (
           <div key={category.name}>
-            <Route
-              render={({ history }) => (
-                <Menu.Item
-                  onClick={() => history.push(`/${category.path}`)}
-                  name={category.name}
-                />
-              )}
-            />
+            <Link to={`/${category.path}`}>
+              <Menu.Item name={category.name} />
+            </Link>
           </div>
         ))}
       </Menu>

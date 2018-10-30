@@ -18,6 +18,7 @@ const initialState = fromJS({
   loading: false,
   error: false,
   posts: [],
+  categories: [],
 });
 
 export const appReducer = (state = initialState, action) => {
@@ -25,7 +26,10 @@ export const appReducer = (state = initialState, action) => {
     case LOAD_APPLICATION:
       return state.set('loading', true).set('error', false);
     case LOAD_APPLICATION_SUCCESS:
-      return state.set('posts', action.posts).set('loading', false);
+      return state
+        .set('posts', action.posts)
+        .set('categories', action.categories)
+        .set('loading', false);
     default:
       return state;
   }
