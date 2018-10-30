@@ -28,7 +28,6 @@ export const update = post =>
     method: 'PUT',
     headers: {
       ...headers,
-      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ post }),
   }).then(res => res.json());
@@ -38,7 +37,6 @@ export const vote = (postId, option) =>
     method: 'POST',
     headers: {
       ...headers,
-      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ option }),
   }).then(res => res.json());

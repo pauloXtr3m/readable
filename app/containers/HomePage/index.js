@@ -8,10 +8,8 @@ import PostFeed from 'components/PostFeed/index';
 import postsSaga from './saga';
 import injectSaga from '../../utils/injectSaga';
 import { makeSelectPosts, makeSelectCategories } from './selectors';
-import { loadApplication } from '../App/actions';
+import { loadApplication, vote } from '../App/actions';
 import CategoriesMenu from '../../components/CategoriesMenu';
-import reducer from '../App/reducer';
-import injectReducer from '../../utils/injectReducer';
 import { makeSelectLocation } from '../App/selectors';
 
 export class HomePage extends React.Component {
@@ -19,11 +17,12 @@ export class HomePage extends React.Component {
     this.props.loadApplication();
   }
   render() {
-    const { posts, loading, categories } = this.props;
+    const { posts, loading, categories, voteFunc } = this.props;
 
     const postFeedProps = {
       posts,
       loading,
+      vote: voteFunc,
     };
 
     return (
@@ -50,6 +49,7 @@ HomePage.propTypes = {
   posts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   categories: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   loadApplication: PropTypes.func,
+  voteFunc: PropTypes.func,
 };
 
 export function mapDispatchToProps(dispatch) {
@@ -58,8 +58,8 @@ export function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadApplication());
     },
-    changeCategory: name => {
-      dispatch({ type: 'CHANGE_CATEGORY', name });
+    voteFunc: (postId, option, index) => () => {
+      dispatch(vote(postId, option, index));
     },
   };
 }
@@ -75,11 +75,9 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga: postsSaga });
 
 export default compose(
-  withReducer,
   withSaga,
   withConnect,
 )(HomePage);

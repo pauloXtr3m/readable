@@ -6,7 +6,7 @@ import { initialState } from './reducer';
  */
 
 const selectPostCategoryDomain = state =>
-  state.get('postCategory', initialState);
+  state.get('postcategory', initialState);
 
 /**
  * Other specific selectors
