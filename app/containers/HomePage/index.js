@@ -4,11 +4,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Grid, Segment } from 'semantic-ui-react';
-import PostFeed from 'components/PostFeed/index';
+import PostFeed from 'components/PostFeed/Loadable';
 import postsSaga from './saga';
 import injectSaga from '../../utils/injectSaga';
 import { makeSelectPosts, makeSelectCategories } from './selectors';
-import { loadApplication, vote } from '../App/actions';
+import { loadApplication } from '../App/actions';
 import CategoriesMenu from '../../components/CategoriesMenu';
 import { makeSelectLocation } from '../App/selectors';
 
@@ -17,12 +17,11 @@ export class HomePage extends React.Component {
     this.props.loadApplication();
   }
   render() {
-    const { posts, loading, categories, voteFunc } = this.props;
+    const { posts, loading, categories } = this.props;
 
     const postFeedProps = {
       posts,
       loading,
-      vote: voteFunc,
     };
 
     return (
@@ -35,7 +34,6 @@ export class HomePage extends React.Component {
             <Segment>
               <PostFeed {...postFeedProps} />
             </Segment>
-            {!posts.length && <h4>There are no posts to show</h4>}
           </Grid.Column>
         </Grid>
       </div>
@@ -49,7 +47,6 @@ HomePage.propTypes = {
   posts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   categories: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   loadApplication: PropTypes.func,
-  voteFunc: PropTypes.func,
 };
 
 export function mapDispatchToProps(dispatch) {
@@ -57,9 +54,6 @@ export function mapDispatchToProps(dispatch) {
     loadApplication: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadApplication());
-    },
-    voteFunc: (postId, option, index) => () => {
-      dispatch(vote(postId, option, index));
     },
   };
 }

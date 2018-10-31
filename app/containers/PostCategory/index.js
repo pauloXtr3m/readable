@@ -16,7 +16,7 @@ import makeSelectPostCategory from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { getPostsByCategory } from './actions';
-import PostFeed from '../../components/PostFeed';
+import PostFeed from '../../components/PostFeed/Loadable';
 
 import { makeSelectLoading } from '../App/selectors';
 

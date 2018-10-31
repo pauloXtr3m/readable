@@ -13,10 +13,3 @@ export const LOAD_APPLICATION = 'app/LOAD_APPLICATION';
 export const LOAD_APPLICATION_SUCCESS = 'app/LOAD_APPLICATION_SUCCESS';
 
 export const LOAD_APPLICATION_ERROR = 'app/LOAD_APPLICATION_ERROR';
-
-export const VOTE = 'app/home/VOTE';
-export const VOTE_SUCCESS = 'app/home/VOTE_UP_SUCCESS';
-export const VOTE_ERROR = 'app/home/VOTE_UP_ERROR';
-
-export const DOWN_VOTE = 'downVote';
-export const UP_VOTE = 'upVote';
