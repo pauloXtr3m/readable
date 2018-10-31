@@ -37,6 +37,7 @@ export const vote = (postId, option) =>
     method: 'POST',
     headers: {
       ...headers,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ option }),
   }).then(res => res.json());
