@@ -1,23 +1,30 @@
 import { createSelector } from 'reselect';
-import { initialState } from './reducer';
 
 /**
  * Direct selector to the postCategory state domain
  */
 
-const selectPostCategoryDomain = state =>
-  state.get('postcategory', initialState);
+const selectGlobal = globalState => globalState.get('global');
 
-/**
- * Other specific selectors
- */
+const makeSelectPostCategory = category =>
+  createSelector(selectGlobal, substate => {
+    const posts = substate.get('posts');
+    const arrayPosts = [];
+    let retorno = {};
+    if (posts && posts.size !== 0) {
+      Object.keys(posts).forEach(id => {
+        if (posts[id].category === category) {
+          arrayPosts.push(posts[id]);
+        }
+      });
 
-/**
- * Default selector used by PostCategory
- */
+      retorno = arrayPosts.reduce(
+        (map, obj) => ({ ...map, [obj.id]: obj }),
+        {},
+      );
+    }
 
-const makeSelectPostCategory = () =>
-  createSelector(selectPostCategoryDomain, substate => substate.get('posts'));
+    return retorno;
+  });
 
 export default makeSelectPostCategory;
-export { selectPostCategoryDomain };

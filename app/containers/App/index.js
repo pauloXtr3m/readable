@@ -14,14 +14,18 @@
 
 import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
-
+import { compose } from 'redux';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import PostCategory from 'containers/PostCategory/Loadable';
 import { Container, Menu } from 'semantic-ui-react';
 import { PostDetail } from '../PostDetail';
+import injectSaga from '../../utils/injectSaga';
+import appSaga from './saga';
+import injectReducer from '../../utils/injectReducer';
+import reducer from './reducer';
 
-export default function App() {
+export function App() {
   return (
     <div>
       <Menu pointing secondary color="brown">
@@ -42,3 +46,11 @@ export default function App() {
     </div>
   );
 }
+
+const withAppReducer = injectReducer({ key: 'global', reducer });
+const withAppSaga = injectSaga({ key: 'global', saga: appSaga });
+
+export default compose(
+  withAppSaga,
+  withAppReducer,
+)(App);

@@ -13,7 +13,7 @@ import Post from '../Post';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/prefer-stateless-function */
-function PostFeed({ loading, error, posts, category }) {
+function PostFeed({ loading, error, posts, category, filtered }) {
   if (loading) {
     return <div>Loading</div>;
   } else if (!error && posts && posts.size !== 0) {
@@ -21,7 +21,15 @@ function PostFeed({ loading, error, posts, category }) {
       <div>
         {category && <h4>{category}</h4>}
         <Feed>
-          {Object.keys(posts).map(id => <Post key={id} post={posts[id]} />)}
+          {Object.keys(posts).map(id => {
+            if (filtered) {
+              if (posts[id].category === category) {
+                return <Post key={id} post={posts[id]} />;
+              }
+              return null;
+            }
+            return <Post key={id} post={posts[id]} />;
+          })}
         </Feed>
       </div>
     );
@@ -40,6 +48,7 @@ PostFeed.propTypes = {
   error: PropTypes.bool,
   posts: PropTypes.any,
   category: PropTypes.string,
+  filtered: PropTypes.bool,
 };
 
 export default PostFeed;

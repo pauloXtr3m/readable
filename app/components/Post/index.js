@@ -8,9 +8,6 @@ import connect from 'react-redux/es/connect/connect';
 import PropTypes from 'prop-types';
 import { DOWN_VOTE, UP_VOTE } from './constants';
 import { vote } from './actions';
-import postsSaga from './saga';
-
-import injectSaga from '../../utils/injectSaga';
 
 function Post({ post, voteFunc }) {
   return (
@@ -59,9 +56,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withSaga = injectSaga({ key: 'global', saga: postsSaga });
-
-export default compose(
-  withSaga,
-  withConnect,
-)(Post);
+export default compose(withConnect)(Post);

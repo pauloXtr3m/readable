@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Grid, Segment } from 'semantic-ui-react';
 import PostFeed from 'components/PostFeed/Loadable';
-import postsSaga from './saga';
-import injectSaga from '../../utils/injectSaga';
 import { makeSelectPosts, makeSelectCategories } from './selectors';
 import { loadApplication } from '../App/actions';
 import CategoriesMenu from '../../components/CategoriesMenu';
@@ -69,9 +67,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withSaga = injectSaga({ key: 'global', saga: postsSaga });
-
-export default compose(
-  withSaga,
-  withConnect,
-)(HomePage);
+export default compose(withConnect)(HomePage);
