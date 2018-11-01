@@ -9,7 +9,5 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 export const LOAD_APPLICATION = 'app/LOAD_APPLICATION';
-
 export const LOAD_APPLICATION_SUCCESS = 'app/LOAD_APPLICATION_SUCCESS';
-
 export const LOAD_APPLICATION_ERROR = 'app/LOAD_APPLICATION_ERROR';

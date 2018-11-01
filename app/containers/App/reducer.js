@@ -11,11 +11,17 @@
  */
 
 import { fromJS } from 'immutable';
-import { LOAD_APPLICATION, LOAD_APPLICATION_SUCCESS } from './constants';
 import {
-  VOTE,
+  LOAD_APPLICATION,
+  LOAD_APPLICATION_SUCCESS,
   VOTE_ERROR,
   VOTE_SUCCESS,
+} from './constants';
+import {
+  DELETE_POST_ERROR,
+  DELETE_POST_SUCCESS,
+  UPDATE_POST_ERROR,
+  UPDATE_POST_SUCCESS,
 } from '../../components/Post/constants';
 
 // The initial state of the App
@@ -40,14 +46,12 @@ export const appReducer = (state = initialState, action) => {
         )
         .set('categories', categories)
         .set('loading', false);
-    case VOTE:
-      return state;
-    case VOTE_SUCCESS:
+    case (VOTE_SUCCESS, DELETE_POST_SUCCESS, UPDATE_POST_SUCCESS):
       return state.set('posts', {
         ...state.get('posts'),
         [post.id]: { ...post },
       });
-    case VOTE_ERROR:
+    case (VOTE_ERROR, DELETE_POST_ERROR, UPDATE_POST_ERROR):
       return state.set('error', action.message);
     default:
       return state;

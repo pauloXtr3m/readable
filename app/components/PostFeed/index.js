@@ -22,6 +22,9 @@ function PostFeed({ loading, error, posts, category, filtered }) {
         {category && <h4>{category}</h4>}
         <Feed>
           {Object.keys(posts).map(id => {
+            if (posts[id].deleted) {
+              return null;
+            }
             if (filtered) {
               if (posts[id].category === category) {
                 return <Post key={id} post={posts[id]} />;

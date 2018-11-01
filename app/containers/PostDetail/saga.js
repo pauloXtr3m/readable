@@ -8,7 +8,7 @@ import {
 
 function* fetchPosts(action) {
   try {
-    const posts = yield call(PostsApi.getAll, '');
+    const posts = yield call(PostsApi.get, action.postId);
     const newAction = { ...action, posts };
     yield put({ ...newAction, type: LOAD_APPLICATION_SUCCESS });
   } catch (e) {
