@@ -13,15 +13,15 @@ import {
   ADD_POST_ERROR,
 } from './constants';
 
-export function vote(postId, option) {
+export function votePost(postId, option) {
   return { type: VOTE, postId, option };
 }
 
-export function voteSuccess(post) {
+export function votePostSuccess(post) {
   return { type: VOTE_SUCCESS, post };
 }
 
-export function voteError(message) {
+export function votePostError(message) {
   return { type: VOTE_ERROR, message };
 }
 

@@ -17,9 +17,9 @@ import { Switch, Route, Link } from 'react-router-dom';
 import { compose } from 'redux';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import PostCategory from 'containers/PostCategory/Loadable';
+import PostCategoryPage from 'containers/PostCategoryPage/Loadable';
+import PostDetailPage from 'containers/PostDetailPage/Loadable';
 import { Container, Menu } from 'semantic-ui-react';
-import { PostDetail } from '../PostDetail';
 import injectSaga from '../../utils/injectSaga';
 import appSaga from './saga';
 import injectReducer from '../../utils/injectReducer';
@@ -38,8 +38,12 @@ export function App() {
       <Container>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/:category_id" component={PostCategory} />
-          <Route exact path="/:category_id/:post_id" component={PostDetail} />
+          <Route exact path="/:category_id" component={PostCategoryPage} />
+          <Route
+            exact
+            path="/:category_id/:post_id"
+            component={PostDetailPage}
+          />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </Container>

@@ -1,6 +1,6 @@
 /**
  *
- * PostCategory
+ * PostCategoryPage
  *
  */
 
@@ -15,7 +15,7 @@ import PostFeed from '../../components/PostFeed/Loadable';
 import { makeSelectLoading } from '../App/selectors';
 import { makeSelectPosts } from '../HomePage/selectors';
 
-export const PostCategory = ({ posts, loading, error, match }) => {
+export const PostCategoryPage = ({ posts, loading, error, match }) => {
   const category = match.params.category_id;
 
   const postFeedProps = {
@@ -35,7 +35,7 @@ export const PostCategory = ({ posts, loading, error, match }) => {
   );
 };
 
-PostCategory.propTypes = {
+PostCategoryPage.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   posts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
@@ -53,4 +53,4 @@ const withConnect = connect(
   () => ({}),
 );
 
-export default compose(withConnect)(PostCategory);
+export default compose(withConnect)(PostCategoryPage);

@@ -10,8 +10,8 @@ import {
   deletePostSuccess,
   updatePostError,
   updatePostSuccess,
-  voteError,
-  voteSuccess,
+  votePostError,
+  votePostSuccess,
 } from '../../components/Post/actions';
 import {
   ADD_POST,
@@ -33,9 +33,9 @@ function* fetchApplicationData() {
 function* vote(action) {
   try {
     const post = yield call(PostsAPI.vote, action.postId, action.option);
-    yield put(voteSuccess(post));
+    yield put(votePostSuccess(post));
   } catch (e) {
-    yield put(voteError(e.message()));
+    yield put(votePostError(e.message()));
   }
 }
 
