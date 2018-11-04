@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Button, Feed, Grid, Icon, Input } from 'semantic-ui-react';
+import { Button, Feed, Form, Grid, Icon } from 'semantic-ui-react';
 import React from 'react';
 import { compose } from 'redux';
 
@@ -10,61 +10,72 @@ import { DOWN_VOTE, UP_VOTE } from './constants';
 import { deletePost, updatePost, vote } from './actions';
 
 class Post extends React.Component {
-  state = { edit: false };
-
-  edit() {
-    this.setState({ edit: true });
-  }
-
-  update = post => () => {
-    this.setState({ edit: false });
-    this.props.updatePostFunc(post);
+  state = {
+    edit: false,
   };
 
-  cancel() {
-    this.setState({ edit: false });
-  }
+  edit = component => () => {
+    component.setState({ edit: true });
+  };
+
+  update = (post, component) => () => {
+    component.props.updatePostFunc({
+      ...post,
+      title: component.state.title ? component.state.title : post.title,
+      body: component.state.body ? component.state.body : post.body,
+    });
+    component.setState({ edit: false });
+  };
+
+  cancel = component => () => {
+    component.setState({ edit: false });
+  };
+
+  onChangeInput = label => (e, input) => {
+    if (input.value) {
+      this.setState({ [label]: input.value });
+    }
+  };
 
   render() {
     const { post, voteFunc, deletePostFunc } = this.props;
 
     if (this.state.edit) {
       return (
-        <Feed.Event key={post.id}>
-          <Feed.Label image={post.image} />
-          <Feed.Content>
-            <Feed.Summary>
-              <Grid columns={2}>
-                <Grid.Column width={12}>
-                  <Input label="Author" text={post.author} />
-                  {/* <Feed.User>{post.author}</Feed.User> */}
-                  {/* {` posted ${post.title}`} */}
-                  <Input label="Title" text={post.title} />
-                </Grid.Column>
-                <Grid.Column width={4}>
-                  <Button
-                    basic
-                    icon="pencil"
-                    circular
-                    color="green"
-                    onClick={this.update(post)}
-                  />
-                  <Button
-                    basic
-                    icon="cancel"
-                    circular
-                    color="red"
-                    onClick={this.cancel}
-                  />
-                </Grid.Column>
-              </Grid>
-            </Feed.Summary>
+        <Form key={post.id} columns={2}>
+          <Form.Input
+            onChange={this.onChangeInput('title')}
+            label="Title"
+            defaultValue={post.title}
+          />
 
-            <Link to={`/${post.category}/${post.id}`}>
-              <Input label="Content" text={post.body} />
-            </Link>
-          </Feed.Content>
-        </Feed.Event>
+          <Form.TextArea
+            autoHeight
+            label="Body"
+            onChange={this.onChangeInput('body')}
+            defaultValue={post.body}
+          />
+
+          <Form.Group>
+            <Button
+              primary
+              animated="vertical"
+              onClick={this.update(post, this)}
+            >
+              <Button.Content hidden>Submit</Button.Content>
+              <Button.Content visible>
+                <Icon name="check" />
+              </Button.Content>
+            </Button>
+
+            <Button animated="vertical" onClick={this.cancel(this)}>
+              <Button.Content hidden>Cancel</Button.Content>
+              <Button.Content visible>
+                <Icon name="cancel" />
+              </Button.Content>
+            </Button>
+          </Form.Group>
+        </Form>
       );
     }
     return (
@@ -78,7 +89,12 @@ class Post extends React.Component {
                 {` posted ${post.title}`}
               </Grid.Column>
               <Grid.Column width={4}>
-                <Button basic icon="pencil" circular onClick={this.edit} />
+                <Button
+                  basic
+                  icon="pencil"
+                  circular
+                  onClick={this.edit(this)}
+                />
                 <Button
                   basic
                   icon="trash"
@@ -114,7 +130,6 @@ Post.propTypes = {
   post: PropTypes.object,
   voteFunc: PropTypes.func,
   deletePostFunc: PropTypes.func,
-  updatePostFunc: PropTypes.func,
 };
 
 export function mapDispatchToProps(dispatch) {
@@ -125,7 +140,7 @@ export function mapDispatchToProps(dispatch) {
     deletePostFunc: postId => () => {
       dispatch(deletePost(postId));
     },
-    updatePostFunc: post => () => {
+    updatePostFunc: post => {
       dispatch(updatePost(post));
     },
   };

@@ -12,6 +12,7 @@ const { token } = localStorage;
 const headers = {
   Accept: 'application/json',
   Authorization: token,
+  'Content-Type': 'application/json',
 };
 
 export const get = postId =>
@@ -26,7 +27,7 @@ export const update = post =>
     headers: {
       ...headers,
     },
-    body: JSON.stringify({ post }),
+    body: JSON.stringify(post),
   }).then(res => res.json());
 
 export const vote = (postId, option) =>
@@ -34,7 +35,6 @@ export const vote = (postId, option) =>
     method: 'POST',
     headers: {
       ...headers,
-      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ option }),
   }).then(res => res.json());
@@ -44,7 +44,6 @@ export const remove = postId =>
     method: 'DELETE',
     headers: {
       ...headers,
-      'Content-Type': 'application/json',
     },
   }).then(res => res.json());
 
