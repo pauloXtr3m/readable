@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Grid, Feed, Form } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import { DOWN_VOTE, UP_VOTE } from './constants';
 
 export const PostDetailed = ({
@@ -60,7 +59,7 @@ export const PostDetailed = ({
           <Grid columns={2}>
             <Grid.Column width={12}>
               <Feed.User>{post.author}</Feed.User>
-              <h2>{` posted ${post.title}`}</h2>
+              <h2>{post.title}</h2>
             </Grid.Column>
             <Grid.Column width={4}>
               <Button basic icon="pencil" circular onClick={edit} />
@@ -75,9 +74,7 @@ export const PostDetailed = ({
           </Grid>
         </Feed.Summary>
 
-        <Link to={`/${post.category}/${post.id}`}>
-          <Feed.Extra text>{post.body}</Feed.Extra>
-        </Link>
+        <Feed.Extra text>{post.body}</Feed.Extra>
 
         <Feed.Meta>
           <Feed.Like onClick={voteFunc(post.id, UP_VOTE)}>

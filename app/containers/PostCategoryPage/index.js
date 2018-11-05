@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Grid } from 'semantic-ui-react';
 import PostFeed from '../../components/PostFeed/Loadable';
 
 import { makeSelectLoading } from '../App/selectors';
@@ -18,6 +19,8 @@ import reducer from './reducer';
 import injectSaga from '../../utils/injectSaga';
 import saga from './saga';
 import makeSelectPostCategory from './selectors';
+
+import ArrowBack from '../../components/ArrowBack';
 
 class PostCategoryPage extends React.Component {
   componentDidMount() {
@@ -38,7 +41,14 @@ class PostCategoryPage extends React.Component {
 
     return (
       <div>
-        <PostFeed {...postFeedProps} />
+        <Grid columns={2}>
+          <Grid.Column width={2}>
+            <ArrowBack />
+          </Grid.Column>
+          <Grid.Column width={14}>
+            <PostFeed {...postFeedProps} />
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }

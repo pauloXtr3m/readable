@@ -10,7 +10,7 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import Post from 'components/Post/Loadable';
 import { connect } from 'react-redux';
-import { Container, Feed, Segment } from 'semantic-ui-react';
+import { Feed, Grid, Segment } from 'semantic-ui-react';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
@@ -20,6 +20,7 @@ import saga from './saga';
 import { getPost } from './actions';
 import CommentFeed from '../../components/CommentFeed/Loadable';
 import NewCommentForm from '../../components/NewCommentForm';
+import ArrowBack from '../../components/ArrowBack';
 
 class PostDetailPage extends React.PureComponent {
   componentDidMount() {
@@ -29,21 +30,29 @@ class PostDetailPage extends React.PureComponent {
   render() {
     const { post, comments } = this.props;
 
-    if (!post.id) {
+    if (!post.id || post.deleted) {
       return <div> This Post was deleted</div>;
     }
 
     return (
       <div>
-        <Container textAlign="justified">
-          <Feed>
-            <Post post={post} detailed />
-          </Feed>
-          <NewCommentForm postId={post.id} />
-          <Segment>
-            <CommentFeed comments={comments} commentCount={post.commentCount} />
-          </Segment>
-        </Container>
+        <Grid columns={2}>
+          <Grid.Column width={2}>
+            <ArrowBack />
+          </Grid.Column>
+          <Grid.Column width={14}>
+            <Feed>
+              <Post post={post} detailed />
+            </Feed>
+            <NewCommentForm postId={post.id} />
+            <Segment>
+              <CommentFeed
+                comments={comments}
+                commentCount={post.commentCount}
+              />
+            </Segment>
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }
