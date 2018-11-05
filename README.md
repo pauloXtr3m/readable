@@ -10,11 +10,11 @@ Firstly, run the [server](https://github.com/udacity/reactnd-project-readable-st
 
 In the root path:
 ```
-$ yarn install
+$ npm install
 ```
 ## Run
 ```
-$ yarn start
+$ npm start
 ```
 
 The application starts by default in _local host, port 3000_
