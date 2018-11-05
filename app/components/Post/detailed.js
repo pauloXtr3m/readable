@@ -60,7 +60,7 @@ export const PostDetailed = ({
           <Grid columns={2}>
             <Grid.Column width={12}>
               <Feed.User>{post.author}</Feed.User>
-              {` posted ${post.title}`}
+              <h2>{` posted ${post.title}`}</h2>
             </Grid.Column>
             <Grid.Column width={4}>
               <Button basic icon="pencil" circular onClick={edit} />

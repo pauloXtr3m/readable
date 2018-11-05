@@ -4,48 +4,78 @@
  *
  */
 import PropTypes from 'prop-types';
-import { Feed, Segment } from 'semantic-ui-react';
+import { Feed, Segment, Select } from 'semantic-ui-react';
 import React from 'react';
 import Post from '../Post';
+import * as MapUtils from '../../utils/MapUtils';
 
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/prefer-stateless-function */
-function PostFeed({ loading, error, posts, category, filtered }) {
-  if (loading) {
-    return <div>Loading</div>;
-  } else if (!error && posts && posts.size !== 0) {
-    return (
-      <div>
-        <Segment>
-          {category && <h4>{category}</h4>}
-          <Feed>
-            {Object.keys(posts).map(id => {
-              if (posts[id].deleted) {
-                return null;
-              }
-              if (filtered) {
-                if (posts[id].category === category) {
-                  return <Post key={id} post={posts[id]} />;
+class PostFeed extends React.Component {
+  state = { posts: [] };
+
+  onChangeSort = component => (e, select) => {
+    if (select.value) {
+      component.setState({
+        posts: MapUtils.getMapSorted(component.props.posts, select.value),
+        sortBy: select.value,
+      });
+    }
+  };
+
+  render() {
+    const { loading, error, posts, category, filtered } = this.props;
+    const sortBy = [
+      { key: 'date', value: 'date', text: 'Date' },
+      { key: 'score', value: 'voteScore', text: 'Score' },
+    ];
+
+    if (loading) {
+      return <div>Loading</div>;
+    } else if (!error && posts && posts.size !== 0) {
+      const arrayPosts = this.state.posts.length
+        ? this.state.posts
+        : MapUtils.toArray(posts);
+
+      return (
+        <div>
+          <Segment>
+            {category && <h4>{category}</h4>}
+            <h5>Sort by:</h5>
+            <Select
+              options={sortBy}
+              placeholder="Sort by"
+              onChange={this.onChangeSort(this)}
+            />
+            <Feed>
+              {arrayPosts.map(post => {
+                if (post.deleted) {
+                  return null;
                 }
-                return null;
-              }
-              return <Post key={id} post={posts[id]} />;
-            })}
-          </Feed>
-        </Segment>
-      </div>
-    );
-  } else if (!error || posts.size === 0 || !posts.length) {
-    return (
-      <div>
-        <h4>There are no posts to show</h4>
-      </div>
-    );
+                if (filtered) {
+                  if (post.category === category) {
+                    return <Post key={post.id} post={post} />;
+                  }
+                  return null;
+                }
+                return <Post key={post.id} post={post} />;
+              })}
+            </Feed>
+          </Segment>
+        </div>
+      );
+    } else if (!error || posts.size === 0 || !posts.length) {
+      return (
+        <div>
+          <h4>There are no posts to show</h4>
+        </div>
+      );
+    }
+    return <div>Error, refresh the page</div>;
   }
-  return <div>Error, refresh the page</div>;
 }
 
 PostFeed.propTypes = {
