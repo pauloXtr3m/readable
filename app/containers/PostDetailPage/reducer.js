@@ -24,9 +24,6 @@ function postDetailReducer(state = initialState, action) {
   const { post, type, comments, comment } = action;
 
   switch (type) {
-    case VOTE_SUCCESS:
-    case UPDATE_POST_SUCCESS:
-    case DELETE_POST_SUCCESS:
     case GET_POST_SUCCESS:
       return state
         .set('post', post)
@@ -34,6 +31,11 @@ function postDetailReducer(state = initialState, action) {
           'comments',
           comments.reduce((map, obj) => ({ ...map, [obj.id]: obj }), {}),
         );
+    case VOTE_SUCCESS:
+    case UPDATE_POST_SUCCESS:
+    case DELETE_POST_SUCCESS:
+      return state.set('post', post);
+
     case UPDATE_COMMENT_SUCCESS:
     case ADD_COMMENT_SUCCESS:
     case VOTE_COMMENT_SUCCESS:

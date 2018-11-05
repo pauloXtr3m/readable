@@ -13,12 +13,13 @@ import Comment from '../Comment/Loadable';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/prefer-stateless-function */
-function CommentFeed({ loading, error, comments }) {
+function CommentFeed({ loading, error, comments, commentCount }) {
   if (loading) {
     return <div>Loading</div>;
   } else if (!error && comments && comments.size !== 0) {
     return (
       <div>
+        <h3>{`${commentCount} comment${commentCount > 1 ? 's' : ''}`}</h3>
         <Feed>
           {Object.keys(comments).map(id => {
             if (comments[id].deleted) {
@@ -43,6 +44,7 @@ CommentFeed.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.bool,
   comments: PropTypes.any,
+  commentCount: PropTypes.number,
 };
 
 export default CommentFeed;

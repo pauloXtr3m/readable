@@ -9,31 +9,40 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Segment } from 'semantic-ui-react';
 import PostFeed from '../../components/PostFeed/Loadable';
 
 import { makeSelectLoading } from '../App/selectors';
-import { makeSelectPosts } from '../HomePage/selectors';
+import { getPostsFromCategory } from './action';
+import injectReducer from '../../utils/injectReducer';
+import reducer from './reducer';
+import injectSaga from '../../utils/injectSaga';
+import saga from './saga';
+import makeSelectPostCategory from './selectors';
 
-export const PostCategoryPage = ({ posts, loading, error, match }) => {
-  const category = match.params.category_id;
+class PostCategoryPage extends React.Component {
+  componentDidMount() {
+    this.props.getPostsByCategory(this.props.match.params.category_id);
+  }
 
-  const postFeedProps = {
-    posts,
-    loading,
-    error,
-    category,
-    filtered: true,
-  };
+  render() {
+    const { posts, loading, error, match } = this.props;
+    const category = match.params.category_id;
 
-  return (
-    <div>
-      <Segment>
+    const postFeedProps = {
+      posts,
+      loading,
+      error,
+      category,
+      filtered: true,
+    };
+
+    return (
+      <div>
         <PostFeed {...postFeedProps} />
-      </Segment>
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 PostCategoryPage.propTypes = {
   loading: PropTypes.bool,
@@ -44,13 +53,24 @@ PostCategoryPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  posts: makeSelectPosts(),
+  posts: makeSelectPostCategory(),
   loading: makeSelectLoading(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  getPostsByCategory: categoryId => dispatch(getPostsFromCategory(categoryId)),
 });
 
 const withConnect = connect(
   mapStateToProps,
-  () => ({}),
+  mapDispatchToProps,
 );
 
-export default compose(withConnect)(PostCategoryPage);
+const withReducer = injectReducer({ key: 'category_page', reducer });
+const withSaga = injectSaga({ key: 'category_page', saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(PostCategoryPage);

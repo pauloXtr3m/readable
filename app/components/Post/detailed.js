@@ -95,7 +95,7 @@ export const PostDetailed = ({
 };
 
 PostDetailed.propTypes = {
-  post: PropTypes.bool,
+  post: PropTypes.object,
   voteFunc: PropTypes.func,
   isEditing: PropTypes.bool,
   deletePostFunc: PropTypes.func,

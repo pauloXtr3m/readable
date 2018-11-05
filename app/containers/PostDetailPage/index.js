@@ -28,18 +28,21 @@ class PostDetailPage extends React.PureComponent {
 
   render() {
     const { post, comments } = this.props;
+
+    if (!post.id) {
+      return <div> This Post was deleted</div>;
+    }
+
     return (
       <div>
         <Container textAlign="justified">
           <Feed>
-            <Post post={post} />
+            <Post post={post} detailed />
           </Feed>
           <NewCommentForm postId={post.id} />
           <Segment>
-            <h4>Comments</h4>
-            <CommentFeed comments={comments} />
+            <CommentFeed comments={comments} commentCount={post.commentCount} />
           </Segment>
-          {/* <NewCommentForm postId={post.id} /> */}
         </Container>
       </div>
     );

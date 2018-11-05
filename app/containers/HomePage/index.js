@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import PostFeed from 'components/PostFeed/Loadable';
 import { makeSelectPosts, makeSelectCategories } from './selectors';
 import { loadApplication } from '../App/actions';
@@ -30,10 +30,8 @@ export class HomePage extends React.Component {
             <CategoriesMenu categories={categories} />
           </Grid.Column>
           <Grid.Column width={13}>
-            <NewPostForm />
-            <Segment>
-              <PostFeed {...postFeedProps} />
-            </Segment>
+            <NewPostForm categories={categories} />
+            <PostFeed {...postFeedProps} />
           </Grid.Column>
         </Grid>
       </div>

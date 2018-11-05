@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon, Grid, Feed, Form } from 'semantic-ui-react';
+import { Button, Icon, Grid, Feed, Form, Divider } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { DOWN_VOTE, UP_VOTE } from './constants';
 
@@ -56,6 +56,7 @@ export const PostCompact = ({
   return (
     <Feed.Event key={post.id}>
       <Feed.Content>
+        <Divider />
         <Feed.Summary>
           <Grid columns={2}>
             <Grid.Column width={12}>
@@ -95,7 +96,7 @@ export const PostCompact = ({
 };
 
 PostCompact.propTypes = {
-  post: PropTypes.bool,
+  post: PropTypes.object,
   voteFunc: PropTypes.func,
   isEditing: PropTypes.bool,
   deletePostFunc: PropTypes.func,

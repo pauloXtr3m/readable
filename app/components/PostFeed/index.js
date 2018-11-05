@@ -4,7 +4,7 @@
  *
  */
 import PropTypes from 'prop-types';
-import { Feed } from 'semantic-ui-react';
+import { Feed, Segment } from 'semantic-ui-react';
 import React from 'react';
 import Post from '../Post';
 
@@ -19,27 +19,29 @@ function PostFeed({ loading, error, posts, category, filtered }) {
   } else if (!error && posts && posts.size !== 0) {
     return (
       <div>
-        {category && <h4>{category}</h4>}
-        <Feed>
-          {Object.keys(posts).map(id => {
-            if (posts[id].deleted) {
-              return null;
-            }
-            if (filtered) {
-              if (posts[id].category === category) {
-                return <Post key={id} post={posts[id]} />;
+        <Segment>
+          {category && <h4>{category}</h4>}
+          <Feed>
+            {Object.keys(posts).map(id => {
+              if (posts[id].deleted) {
+                return null;
               }
-              return null;
-            }
-            return <Post key={id} post={posts[id]} />;
-          })}
-        </Feed>
+              if (filtered) {
+                if (posts[id].category === category) {
+                  return <Post key={id} post={posts[id]} />;
+                }
+                return null;
+              }
+              return <Post key={id} post={posts[id]} />;
+            })}
+          </Feed>
+        </Segment>
       </div>
     );
-  } else if (!error || posts.size === 0) {
+  } else if (!error || posts.size === 0 || !posts.length) {
     return (
       <div>
-        <h4>There no posts to show</h4>
+        <h4>There are no posts to show</h4>
       </div>
     );
   }

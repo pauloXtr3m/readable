@@ -13,6 +13,7 @@ const { token } = localStorage;
 const headers = {
   Accept: 'application/json',
   Authorization: token,
+  'Content-Type': 'application/json',
 };
 
 export const getAll = () =>

@@ -2,7 +2,11 @@ import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as PostsAPI from '../../utils/postsAPI';
 import * as CategoriesAPI from '../../utils/categoriesAPI';
 import { LOAD_APPLICATION } from './constants';
-import { loadApplicationError, loadApplicationSuccess } from './actions';
+import {
+  loadApplication,
+  loadApplicationError,
+  loadApplicationSuccess,
+} from './actions';
 import {
   addPostError,
   addPostSuccess,
@@ -61,6 +65,7 @@ function* addPost(action) {
   try {
     const post = yield call(PostsAPI.add, action.post);
     yield put(addPostSuccess(post));
+    yield put(loadApplication());
   } catch (e) {
     yield put(addPostError(e.message()));
   }
