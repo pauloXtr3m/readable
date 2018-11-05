@@ -37,13 +37,31 @@ function postDetailReducer(state = initialState, action) {
       return state.set('post', post);
 
     case UPDATE_COMMENT_SUCCESS:
-    case ADD_COMMENT_SUCCESS:
     case VOTE_COMMENT_SUCCESS:
-    case DELETE_COMMENT_SUCCESS:
       return state.set('comments', {
         ...state.get('comments'),
         [comment.id]: { ...comment },
       });
+    case ADD_COMMENT_SUCCESS:
+      return state
+        .set('comments', {
+          ...state.get('comments'),
+          [comment.id]: { ...comment },
+        })
+        .set('post', {
+          ...state.get('post'),
+          commentCount: state.get('post').commentCount + 1,
+        });
+    case DELETE_COMMENT_SUCCESS:
+      return state
+        .set('comments', {
+          ...state.get('comments'),
+          [comment.id]: { ...comment },
+        })
+        .set('post', {
+          ...state.get('post'),
+          commentCount: state.get('post').commentCount - 1,
+        });
     default:
       return state;
   }
