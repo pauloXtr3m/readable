@@ -4,6 +4,8 @@ import * as CategoriesAPI from '../../utils/categoriesAPI';
 import { LOAD_APPLICATION } from './constants';
 import { loadApplicationError, loadApplicationSuccess } from './actions';
 import {
+  addPostError,
+  addPostSuccess,
   deletePostError,
   deletePostSuccess,
   updatePostError,
@@ -12,6 +14,7 @@ import {
   voteSuccess,
 } from '../../components/Post/actions';
 import {
+  ADD_POST,
   DELETE_POST,
   UPDATE_POST,
   VOTE,
@@ -54,11 +57,21 @@ function* updatePost(action) {
   }
 }
 
+function* addPost(action) {
+  try {
+    const post = yield call(PostsAPI.add, action.post);
+    yield put(addPostSuccess(post));
+  } catch (e) {
+    yield put(addPostError(e.message()));
+  }
+}
+
 export default function* appSaga() {
   yield all([
     takeEvery(LOAD_APPLICATION, fetchApplicationData),
     takeLatest(VOTE, vote),
     takeLatest(DELETE_POST, deletePost),
     takeLatest(UPDATE_POST, updatePost),
+    takeLatest(ADD_POST, addPost),
   ]);
 }

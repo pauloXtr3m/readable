@@ -13,6 +13,7 @@
 import { fromJS } from 'immutable';
 import { LOAD_APPLICATION, LOAD_APPLICATION_SUCCESS } from './constants';
 import {
+  ADD_POST_SUCCESS,
   DELETE_POST_ERROR,
   DELETE_POST_SUCCESS,
   UPDATE_POST_ERROR,
@@ -46,6 +47,7 @@ export const appReducer = (state = initialState, action) => {
     case DELETE_POST_SUCCESS:
     case VOTE_SUCCESS:
     case UPDATE_POST_SUCCESS:
+    case ADD_POST_SUCCESS:
       return state.set('posts', {
         ...state.get('posts'),
         [post.id]: { ...post },

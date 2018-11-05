@@ -8,6 +8,9 @@ import {
   UPDATE_POST,
   UPDATE_POST_SUCCESS,
   UPDATE_POST_ERROR,
+  ADD_POST,
+  ADD_POST_SUCCESS,
+  ADD_POST_ERROR,
 } from './constants';
 
 export function vote(postId, option) {
@@ -44,4 +47,16 @@ export function updatePostSuccess(post) {
 
 export function updatePostError(message) {
   return { type: UPDATE_POST_ERROR, message };
+}
+
+export function addPost(post) {
+  return { type: ADD_POST, post };
+}
+
+export function addPostSuccess(post) {
+  return { type: ADD_POST_SUCCESS, post };
+}
+
+export function addPostError(message) {
+  return { type: ADD_POST_ERROR, message };
 }

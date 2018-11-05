@@ -1,6 +1,10 @@
 export const DOWN_VOTE = 'downVote';
 export const UP_VOTE = 'upVote';
 
+export const ADD_POST = 'app/post/ADD_POST';
+export const ADD_POST_SUCCESS = 'app/post/ADD_POST_SUCCESS';
+export const ADD_POST_ERROR = 'app/post/ADD_POST_ERROR';
+
 export const UPDATE_POST = 'app/post/UPDATE_POST';
 export const UPDATE_POST_SUCCESS = 'app/post/UPDATE_POST_SUCCESS';
 export const UPDATE_POST_ERROR = 'app/post/UPDATE_POST_ERROR';

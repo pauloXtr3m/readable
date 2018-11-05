@@ -9,6 +9,7 @@ import { makeSelectPosts, makeSelectCategories } from './selectors';
 import { loadApplication } from '../App/actions';
 import CategoriesMenu from '../../components/CategoriesMenu';
 import { makeSelectLocation } from '../App/selectors';
+import NewPostForm from '../../components/NewPostForm';
 
 export class HomePage extends React.Component {
   componentDidMount() {
@@ -29,6 +30,7 @@ export class HomePage extends React.Component {
             <CategoriesMenu categories={categories} />
           </Grid.Column>
           <Grid.Column width={13}>
+            <NewPostForm />
             <Segment>
               <PostFeed {...postFeedProps} />
             </Segment>

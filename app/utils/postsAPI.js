@@ -18,33 +18,34 @@ const headers = {
 export const get = postId =>
   fetch(`${API}/posts/${postId}`, { headers }).then(res => res.json());
 
+export const add = post =>
+  fetch(`${API}/posts/`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(post),
+  }).then(res => res.json());
+
 export const getAll = () =>
   fetch(`${API}/posts`, { headers }).then(res => res.json());
 
 export const update = post =>
   fetch(`${API}/posts/${post.id}`, {
     method: 'PUT',
-    headers: {
-      ...headers,
-    },
+    headers,
     body: JSON.stringify(post),
   }).then(res => res.json());
 
 export const vote = (postId, option) =>
   fetch(`${API}/posts/${postId}`, {
     method: 'POST',
-    headers: {
-      ...headers,
-    },
+    headers,
     body: JSON.stringify({ option }),
   }).then(res => res.json());
 
 export const remove = postId =>
   fetch(`${API}/posts/${postId}`, {
     method: 'DELETE',
-    headers: {
-      ...headers,
-    },
+    headers,
   }).then(res => res.json());
 
 export const getAllComments = postId =>
